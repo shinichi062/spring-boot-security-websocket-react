@@ -23,12 +23,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/login").permitAll()
-                .antMatchers("/user/**","/success.html","/chat.html").hasRole("USER")
+                .antMatchers( "/login", "/images/**", "/js/**","/fonts/**","/resources/static/**","/resources/**","/less/**","/scss/**").permitAll()
+                .antMatchers("/user/**","/success.html","/chat.html","/quan-ly-cong-vec.html").hasRole("USER")
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/chat.html", true)
+                .defaultSuccessUrl("/quan-ly-cong-vec.html", true)
                 .and()
                 .logout().permitAll()
                 .and()
@@ -41,13 +41,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers( "/css/**", "/images/**");
+                .antMatchers("/images/**", "/js/**","/fonts/**","/static/**","/less/**","/scss/**");
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER");
+        auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
     }
 }

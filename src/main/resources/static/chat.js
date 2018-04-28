@@ -1,6 +1,5 @@
 $(function() {
     'use strict';
-
     var client;
 
     function showMessage(mesg)
@@ -25,6 +24,23 @@ $(function() {
 	else $("#conversation").hide();
 	$("#messages").html("");
     }
+    function onConnect(){
+        
+	client = Stomp.over(new SockJS('/chat'));
+        client.debug = false;
+	client.connect({}, function (frame) {
+	    setConnected(true);
+	    client.subscribe('/topic/messages', function (message) {
+		showMessage(JSON.parse(message.body));
+                $.notify({
+                        message: JSON.parse(message.body).message,
+                        url: "http://bootstrap-notify.remabledesigns.com/",
+                        target: "_blank"
+                });
+	    });
+	});
+    
+    }
 
     $("form").on('submit', function (e) {
 	e.preventDefault();
@@ -36,13 +52,7 @@ $(function() {
     $('#connect,#disconnect,#text').prop('disabled', true);
 
     $('#connect').click(function() {
-	client = Stomp.over(new SockJS('/chat'));
-	client.connect({}, function (frame) {
-	    setConnected(true);
-	    client.subscribe('/topic/messages', function (message) {
-		showMessage(JSON.parse(message.body));
-	    });
-	});
+	onConnect();
     });
 
     $('#disconnect').click(function() {
@@ -61,4 +71,6 @@ $(function() {
 	}));
 	$('#text').val("");
     });
-});
+    onConnect();
+})
+;

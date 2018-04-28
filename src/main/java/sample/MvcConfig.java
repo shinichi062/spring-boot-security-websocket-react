@@ -22,16 +22,23 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 //    CurrentUserHandlerMethodArgumentResolver currentUserHandlerMethodArgumentResolver;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+//        registry.addResourceHandler("/resources/static/css/**").addResourceLocations("/resources/static/css/");
+//        registry.addResourceHandler("/resources/static/js/**").addResourceLocations("/resources/static/js/");
+//        registry.addResourceHandler("/resources/static/fonts/**").addResourceLocations("/resources/static/fonts/");
+//        registry.addResourceHandler("/resources/static/static/js/**").addResourceLocations("/resources/static/static/js/");
+//registry.addResourceHandler("/css/**").addResourceLocations("../css/");
+//registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
+registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+   
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
        
         registry.addViewController("/success").setViewName("success");
         registry.addViewController("/chat").setViewName("chat");
+        registry.addViewController("/quan-ly-cong-vec").setViewName("quan-ly-cong-vec");
         registry.addViewController("/error").setViewName("error");
     }
 
